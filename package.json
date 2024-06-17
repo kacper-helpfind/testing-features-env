@@ -9,7 +9,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "messages:compile": "lingui compile",
-    "messages:extract": "lingui extract"
+    "messages:extract": "lingui extract --clean"
   },
   "dependencies": {
     "@lingui/macro": "^4.11.1",

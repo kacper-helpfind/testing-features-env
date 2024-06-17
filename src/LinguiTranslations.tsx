@@ -6,7 +6,7 @@ export const LinguiTranslations: React.FC = () => {
 
   return (
     <div>
-      <p>{i18n.t("Nigdy się nie poddawaj")}</p>
+      <p>{i18n.t("Nigdy się nie poddawa")}</p>
     </div>
   );
 };
