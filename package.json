@@ -9,7 +9,8 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "messages:compile": "lingui compile",
-    "messages:extract": "lingui extract --clean"
+    "messages:extract": "lingui extract --clean",
+    "api:generate": "yarn openapi-generator-cli generate -i https://petstore3.swagger.io/api/v3/openapi.json -g typescript-axios -o ./src/api/generated"
   },
   "dependencies": {
     "@lingui/macro": "^4.11.1",
