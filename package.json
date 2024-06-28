@@ -9,18 +9,21 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "messages:compile": "lingui compile",
-    "messages:extract": "lingui extract"
+    "messages:extract": "lingui extract --clean"
   },
   "dependencies": {
     "@lingui/macro": "^4.11.1",
     "@lingui/react": "^4.11.1",
+    "@openapitools/openapi-generator-cli": "^2.13.4",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "i18next": "^22.4.9",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-resources-to-backend": "^1.1.1",
+    "openapi-typescript": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^12.1.5"
+    "react-i18next": "^12.1.5",
+    "typescript": "^5.5.2"
   },
   "devDependencies": {
     "@lingui/cli": "^4.11.1",

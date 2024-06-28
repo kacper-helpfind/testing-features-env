@@ -13,12 +13,12 @@ function App() {
   const [language, setLanguage] = useState(defaultLocale);
 
   useEffect(() => {
-    const loadLang = async () => {
-      await langDynamic(defaultLocale);
+    const loadLang = async (lang: "pl" | "en") => {
+      await langDynamic(lang);
     };
 
-    loadLang();
-  }, []);
+    loadLang(language);
+  }, [language]);
 
   const changeLanguage = () =>
     setLanguage((prev) => (prev === "pl" ? "en" : "pl"));
