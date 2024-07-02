@@ -6,13 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "messages:compile": "lingui compile",
     "messages:extract": "lingui extract --clean",
-    "api:generate": "openapi-generator-cli generate -i https://petstore3.swagger.io/api/v3/openapi.json -g typescript-axios -o ./src/api/generated -c ./src/api/config.json && sh ./src/api/remove_additional_files.sh && yarn prettier:write",
     "prettier:write": "prettier . --write",
-    "prettier:check": "prettier . --check"
+    "prettier:check": "prettier . --check",
+    "api:generate": "openapi-generator-cli generate -i https://petstore3.swagger.io/api/v3/openapi.json -g typescript-axios -o ./src/api/generated -c ./src/api/config.json && sh ./src/api/remove_additional_files.sh && yarn prettier:write"
   },
   "dependencies": {
     "@lingui/macro": "^4.11.1",
