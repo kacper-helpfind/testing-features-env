@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import "./wdyr";
+import { useEffect, useState } from 'react';
+import './wdyr';
 
-import "./App.css";
-import { i18n } from "@lingui/core";
-import { I18nProvider } from "@lingui/react";
-import React from "react";
-import { LinguiTranslations } from "./LinguiTranslations";
+import './App.css';
+import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
+import React from 'react';
+import { LinguiTranslations } from './LinguiTranslations';
 
-import { defaultLocale, langDynamic } from "./lib/i18n";
+import { defaultLocale, langDynamic } from './lib/i18n';
 
 function App() {
   const [language, setLanguage] = useState(defaultLocale);
 
   useEffect(() => {
-    const loadLang = async (lang: "pl" | "en") => {
+    const loadLang = async (lang: 'pl' | 'en') => {
       await langDynamic(lang);
     };
 
@@ -21,7 +21,7 @@ function App() {
   }, [language]);
 
   const changeLanguage = () =>
-    setLanguage((prev) => (prev === "pl" ? "en" : "pl"));
+    setLanguage(prev => (prev === 'pl' ? 'en' : 'pl'));
 
   return (
     <I18nProvider i18n={i18n}>

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.prettierrc
+public/mockServiceWorker.js
+.gitlab-ci.yml
+i18next-parser.config.mjs
+mockServiceWorker.js
+tsconfig
+index.html
+mocks/

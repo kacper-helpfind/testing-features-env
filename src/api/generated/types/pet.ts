@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
 import type { Category } from './category';
@@ -21,55 +20,53 @@ import type { Category } from './category';
 import type { Tag } from './tag';
 
 /**
- * 
+ *
  * @export
  * @interface Pet
  */
 export interface Pet {
-    /**
-     * 
-     * @type {number}
-     * @memberof Pet
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Pet
-     */
-    'name': string;
-    /**
-     * 
-     * @type {Category}
-     * @memberof Pet
-     */
-    'category'?: Category;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Pet
-     */
-    'photoUrls': Array<string>;
-    /**
-     * 
-     * @type {Array<Tag>}
-     * @memberof Pet
-     */
-    'tags'?: Array<Tag>;
-    /**
-     * pet status in the store
-     * @type {string}
-     * @memberof Pet
-     */
-    'status'?: PetStatusEnum;
+  /**
+   *
+   * @type {number}
+   * @memberof Pet
+   */
+  id?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof Pet
+   */
+  name: string;
+  /**
+   *
+   * @type {Category}
+   * @memberof Pet
+   */
+  category?: Category;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof Pet
+   */
+  photoUrls: Array<string>;
+  /**
+   *
+   * @type {Array<Tag>}
+   * @memberof Pet
+   */
+  tags?: Array<Tag>;
+  /**
+   * pet status in the store
+   * @type {string}
+   * @memberof Pet
+   */
+  status?: PetStatusEnum;
 }
 
 export const PetStatusEnum = {
-    Available: 'available',
-    Pending: 'pending',
-    Sold: 'sold'
+  Available: 'available',
+  Pending: 'pending',
+  Sold: 'sold',
 } as const;
 
-export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
-
-
+export type PetStatusEnum = (typeof PetStatusEnum)[keyof typeof PetStatusEnum];

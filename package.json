@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "messages:compile": "lingui compile",
     "messages:extract": "lingui extract --clean",
-    "api:generate": "yarn openapi-generator-cli generate -i https://petstore3.swagger.io/api/v3/openapi.json -g typescript-axios -o ./src/api/generated -c ./src/api/config.json && sh ./src/api/remove_additional_files.sh"
+    "api:generate": "openapi-generator-cli generate -i https://petstore3.swagger.io/api/v3/openapi.json -g typescript-axios -o ./src/api/generated -c ./src/api/config.json && sh ./src/api/remove_additional_files.sh && yarn prettier:write",
+    "prettier:write": "prettier . --write",
+    "prettier:check": "prettier . --check"
   },
   "dependencies": {
     "@lingui/macro": "^4.11.1",
@@ -40,6 +42,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "i18next-parser": "^7.6.0",
+    "prettier": "3.3.2",
     "vite": "^5.2.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"

@@ -1,16 +1,9 @@
 {
   "supportsES6": true,
-  "modelPackage": "types",
+  "withGeneralApi": false,
   "apiPackage": "apis",
+  "modelPackage": "types",
   "withSeparateModelsAndApi": true,
-  "withGeneralApi": true,
-  "apiFileName": "api.ts",
-  "modelFileName": "types.ts",
-  "generateApiTests": false,
-  "generateModelTests": false,
-  "generateApiDocs": false,
-  "generateModelDocs": false,
-  "legacyDiscriminatorBehavior": true,
   "useSingleRequestParameter": true,
   "enumPropertyNaming": "PascalCase"
 }
