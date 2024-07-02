@@ -13,6 +13,36 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./types";
+
+/**
+ * 
+ * @export
+ * @interface Address
+ */
+export interface Address {
+    /**
+     * 
+     * @type {string}
+     * @memberof Address
+     */
+    'street'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Address
+     */
+    'city'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Address
+     */
+    'state'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Address
+     */
+    'zip'?: string;
+}
+

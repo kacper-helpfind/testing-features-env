@@ -1,0 +1,15 @@
+{
+  "supportsES6": true,
+  "modelPackage": "types",
+  "apiPackage": "apis",
+  "withSeparateModelsAndApi": true,
+  "withGeneralApi": false,
+  "apiFileName": "api.ts",
+  "modelFileName": "types.ts",
+  "generateApiTests": false,
+  "generateModelTests": false,
+  "generateApiDocs": false,
+  "generateModelDocs": false,
+  "legacyDiscriminatorBehavior": true,
+  "useSingleRequestParameter": true
+}

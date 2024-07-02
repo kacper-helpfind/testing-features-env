@@ -13,6 +13,24 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./types";
+
+/**
+ * 
+ * @export
+ * @interface Category
+ */
+export interface Category {
+    /**
+     * 
+     * @type {number}
+     * @memberof Category
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Category
+     */
+    'name'?: string;
+}
+

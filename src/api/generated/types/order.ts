@@ -13,6 +13,57 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./types";
+
+/**
+ * 
+ * @export
+ * @interface Order
+ */
+export interface Order {
+    /**
+     * 
+     * @type {number}
+     * @memberof Order
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Order
+     */
+    'petId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Order
+     */
+    'quantity'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Order
+     */
+    'shipDate'?: string;
+    /**
+     * Order Status
+     * @type {string}
+     * @memberof Order
+     */
+    'status'?: OrderStatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Order
+     */
+    'complete'?: boolean;
+}
+
+export const OrderStatusEnum = {
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
+
+export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
+
+

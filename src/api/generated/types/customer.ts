@@ -13,6 +13,33 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./types";
+// May contain unused imports in some cases
+// @ts-ignore
+import type { Address } from './address';
+
+/**
+ * 
+ * @export
+ * @interface Customer
+ */
+export interface Customer {
+    /**
+     * 
+     * @type {number}
+     * @memberof Customer
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Customer
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {Array<Address>}
+     * @memberof Customer
+     */
+    'address'?: Array<Address>;
+}
+

@@ -13,6 +13,24 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./types";
+
+/**
+ * 
+ * @export
+ * @interface Tag
+ */
+export interface Tag {
+    /**
+     * 
+     * @type {number}
+     * @memberof Tag
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Tag
+     */
+    'name'?: string;
+}
+
