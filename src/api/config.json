@@ -3,7 +3,7 @@
   "modelPackage": "types",
   "apiPackage": "apis",
   "withSeparateModelsAndApi": true,
-  "withGeneralApi": false,
+  "withGeneralApi": true,
   "apiFileName": "api.ts",
   "modelFileName": "types.ts",
   "generateApiTests": false,
@@ -11,5 +11,6 @@
   "generateApiDocs": false,
   "generateModelDocs": false,
   "legacyDiscriminatorBehavior": true,
-  "useSingleRequestParameter": true
+  "useSingleRequestParameter": true,
+  "enumPropertyNaming": "PascalCase"
 }
