@@ -12,6 +12,6 @@
  * Do not edit the class manually.
  */
 
-export * from './apis/pet-api';
-export * from './apis/store-api';
-export * from './apis/user-api';
+export * from './api/pet-api';
+export * from './api/store-api';
+export * from './api/user-api';

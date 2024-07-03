@@ -1,7 +1,7 @@
 {
   "supportsES6": true,
   "withGeneralApi": false,
-  "apiPackage": "apis",
+  "apiPackage": "api",
   "modelPackage": "types",
   "withSeparateModelsAndApi": true,
   "useSingleRequestParameter": true,

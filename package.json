@@ -12,7 +12,7 @@
     "messages:extract": "lingui extract --clean",
     "prettier:write": "prettier . --write",
     "prettier:check": "prettier . --check",
-    "api:generate": "openapi-generator-cli generate -i https://petstore3.swagger.io/api/v3/openapi.json -g typescript-axios -o ./src/api/generated -c ./src/api/config.json && sh ./src/api/remove_additional_files.sh && yarn prettier:write"
+    "api:generate": "./src/api/generate_api.sh"
   },
   "dependencies": {
     "@lingui/macro": "^4.11.1",
