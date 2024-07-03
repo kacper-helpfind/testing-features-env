@@ -12,12 +12,14 @@
     "messages:extract": "lingui extract --clean",
     "prettier:write": "prettier . --write",
     "prettier:check": "prettier . --check",
-    "api:generate": "./src/api/generate_api.sh"
+    "api:generate": "./src/api/_scripts/generate_api.sh"
   },
   "dependencies": {
     "@lingui/macro": "^4.11.1",
     "@lingui/react": "^4.11.1",
+    "@lukemorales/query-key-factory": "^1.3.4",
     "@openapitools/openapi-generator-cli": "^2.13.4",
+    "@tanstack/react-query": "^5.49.2",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "i18next": "^22.4.9",
     "i18next-browser-languagedetector": "^7.0.1",
