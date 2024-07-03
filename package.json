@@ -12,7 +12,7 @@
     "messages:extract": "lingui extract --clean",
     "prettier:write": "prettier . --write",
     "prettier:check": "prettier . --check",
-    "api:generate": "./src/api/_scripts/generate_api.sh"
+    "api:generate": "./src/api/_scripts/generate.sh"
   },
   "dependencies": {
     "@lingui/macro": "^4.11.1",

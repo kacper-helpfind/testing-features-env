@@ -34,5 +34,8 @@ fi
 # Generowanie struktury folderów
 ./src/api/_scripts/generate_structure.sh
 
+# Generowanie plików dla React Query
+./src/api/_scripts/generate_files_structure.sh
+
 # Uruchamianie Prettier
 yarn prettier:write
