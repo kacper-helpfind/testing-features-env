@@ -32,10 +32,10 @@ fi
 ./src/api/_scripts/rename_files.sh
 
 # Generowanie struktury folderów
-./src/api/_scripts/generate_structure.sh
+./src/api/_scripts/generate_dir_structure.sh
 
 # Generowanie plików dla React Query
 ./src/api/_scripts/generate_files_structure.sh
 
 # Uruchamianie Prettier
-yarn prettier:write
+yarn prettier:write > /dev/null 2>&1

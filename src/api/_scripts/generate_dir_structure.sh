@@ -19,7 +19,7 @@ for file in "$API_DIR"/*.ts; do
     dir_path="$dir_path/$i"
     if [ ! -d "$dir_path" ]; then
       mkdir "$dir_path"
-      echo "Created directory: $dir_path"
+    #   echo "Created directory: $dir_path"
     fi
   done
 done

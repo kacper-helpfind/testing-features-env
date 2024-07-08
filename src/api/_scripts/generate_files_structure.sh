@@ -33,14 +33,38 @@ for file in "$API_DIR"/*.ts; do
     hasMutation=true
   fi
 
-  # Utworzenie plików index.ts, queries.ts, mutations.ts
+  # Utworzenie plików queries.ts i mutations.ts z odpowiednimi importami, jeśli nie istnieją
   if $hasGet; then
-    touch "$dir_path/index.ts"
-    touch "$dir_path/queries.ts"
-    echo "Created files: $dir_path/index.ts, $dir_path/queries.ts"
+    if [ ! -f "$dir_path/queries.ts" ]; then
+      echo -e "import { useQuery } from '@tanstack/react-query';\nimport { ONE_MINUTE_MS } from '@/consts';" > "$dir_path/queries.ts"
+      echo "Created file: $dir_path/queries.ts"
+    fi
   fi
   if $hasMutation; then
-    touch "$dir_path/mutations.ts"
-    echo "Created file: $dir_path/mutations.ts"
+    if [ ! -f "$dir_path/mutations.ts" ]; then
+      echo -e "import { useMutation } from '@tanstack/react-query';\nimport { queryClient } from '@/lib/query';\nimport { showNotification } from '@mantine/notifications';" > "$dir_path/mutations.ts"
+      echo "Created file: $dir_path/mutations.ts"
+    fi
+  fi
+
+  # Utworzenie pliku index.ts, jeśli nie istnieje
+  if [ ! -f "$dir_path/index.ts" ]; then
+    if $hasMutation; then
+      echo "export * from './mutations';" > "$dir_path/index.ts"
+    fi
+    if $hasGet; then
+      echo "export * from './queries';" >> "$dir_path/index.ts"
+    fi
+    echo "Created file: $dir_path/index.ts"
+  fi
+
+  # Utworzenie plików helpers.ts i keyFactory.ts, jeśli nie istnieją
+  if [ ! -f "$dir_path/helpers.ts" ]; then
+    touch "$dir_path/helpers.ts"
+    echo "Created file: $dir_path/helpers.ts"
+  fi
+  if [ ! -f "$dir_path/keyFactory.ts" ]; then
+    echo "import { createQueryKeyStore } from '@lukemorales/query-key-factory';" > "$dir_path/keyFactory.ts"
+    echo "Created file: $dir_path/keyFactory.ts"
   fi
 done
