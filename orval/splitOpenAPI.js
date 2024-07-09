@@ -128,24 +128,24 @@ async function main() {
 
   // Tworzenie pliku konfiguracyjnego dla Orval
   const orvalConfigContent = `
-  import { defineConfig } from 'orval';
+import { defineConfig } from 'orval';
 
-  export default defineConfig({
-    petstore: {
-      output: {
-        mode: 'tags-split',
-        target: 'src/orval/api',
-        schemas: 'src/orval/models',
-        client: 'react-query',
-        mock: true,
-        prettier: true,
-        indexFiles: true,
-      },
-      input: {
-        target: './${moduleFilePath}',
-      },
+export default defineConfig({
+  petstore: {
+    output: {
+      mode: 'tags-split',
+      target: 'src/orval/api',
+      schemas: 'src/orval/models',
+      client: 'react-query',
+      mock: true,
+      prettier: true,
+      indexFiles: true,
     },
-  });
+    input: {
+      target: './${moduleFilePath}',
+    },
+  },
+});
   `;
 
   const orvalConfigFilePath = `${selectedTag}.orval.config.ts`;
