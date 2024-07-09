@@ -44,6 +44,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "i18next-parser": "^7.6.0",
+    "orval": "^6.31.0",
     "prettier": "3.3.2",
     "vite": "^5.2.0"
   },
