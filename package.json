@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "additionalScripts": {
+    "api:generate": "./src/api/_scripts/generate.sh"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,9 +15,11 @@
     "messages:extract": "lingui extract --clean",
     "prettier:write": "prettier . --write",
     "prettier:check": "prettier . --check",
-    "api:generate": "./src/api/_scripts/generate.sh"
+    "api:generate": "node ./orval/splitOpenAPI.js",
+    "api:update": "curl -o openapi.json https://petstore3.swagger.io/api/v3/openapi.json"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@lingui/macro": "^4.11.1",
     "@lingui/react": "^4.11.1",
     "@lukemorales/query-key-factory": "^1.3.4",
@@ -24,6 +29,7 @@
     "i18next": "^22.4.9",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-resources-to-backend": "^1.1.1",
+    "msw": "^2.3.1",
     "openapi-typescript": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
