@@ -64,7 +64,7 @@ for file in "$API_DIR"/*.ts; do
     echo "Created file: $dir_path/helpers.ts"
   fi
   if [ ! -f "$dir_path/keyFactory.ts" ]; then
-    echo "import { createQueryKeyStore } from '@lukemorales/query-key-factory';" > "$dir_path/keyFactory.ts"
+    echo "import { createQueryKeys } from '@lukemorales/query-key-factory';" > "$dir_path/keyFactory.ts"
     echo "Created file: $dir_path/keyFactory.ts"
   fi
 done
