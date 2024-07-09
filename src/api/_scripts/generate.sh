@@ -31,6 +31,8 @@ fi
 # Zmiana nazw plików api
 ./src/api/_scripts/rename_files.sh
 
+yarn prettier:write > /dev/null 2>&1
+
 # Generowanie struktury folderów
 ./src/api/_scripts/generate_dir_structure.sh
 
