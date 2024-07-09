@@ -16,7 +16,7 @@
     "prettier:write": "prettier . --write",
     "prettier:check": "prettier . --check",
     "api:generate": "node ./orval/splitOpenAPI.js",
-    "api:update": "curl -o openapi.json https://petstore3.swagger.io/api/v3/openapi.json"
+    "api:update": "curl -o ./orval/openapi.json https://petstore3.swagger.io/api/v3/openapi.json"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
