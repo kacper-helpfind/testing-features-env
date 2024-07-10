@@ -1,9 +1,15 @@
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+// Uzyskanie aktualnej ścieżki katalogu
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Wczytanie pliku JSON
-async function readOpenAPISpec(path) {
-  return await fs.readJson(path);
+async function readOpenAPISpec(filePath) {
+  return await fs.readJson(filePath);
 }
 
 function createTagModule(openapi, tag) {
@@ -18,7 +24,9 @@ function createTagModule(openapi, tag) {
     )
   );
 
-  tagModule.tags = openapi.tags.filter(t => t.name === tag);
+  if (openapi.tags) {
+    tagModule.tags = openapi.tags.filter(t => t.name === tag);
+  }
 
   // Znalezienie wszystkich wymaganych komponentów (schemas, requestBodies, responses, parameters, securitySchemes)
   const requiredComponents = new Set();
@@ -26,28 +34,26 @@ function createTagModule(openapi, tag) {
     for (const method of Object.values(methods)) {
       if (method.requestBody) {
         for (const mediaType of Object.values(method.requestBody.content)) {
-          getRefsFromSchema(mediaType.schema).forEach(ref =>
-            requiredComponents.add(ref)
-          );
+          getRefsFromSchema(mediaType.schema, requiredComponents, openapi);
         }
       }
       if (method.responses) {
         for (const response of Object.values(method.responses)) {
           if (response.content) {
             for (const mediaType of Object.values(response.content)) {
-              getRefsFromSchema(mediaType.schema).forEach(ref =>
-                requiredComponents.add(ref)
-              );
+              getRefsFromSchema(mediaType.schema, requiredComponents, openapi);
             }
+          }
+          if (response.$ref) {
+            const ref = response.$ref.split('/').pop();
+            requiredComponents.add(ref);
           }
         }
       }
       if (method.parameters) {
         for (const parameter of method.parameters) {
           if (parameter.schema) {
-            getRefsFromSchema(parameter.schema).forEach(ref =>
-              requiredComponents.add(ref)
-            );
+            getRefsFromSchema(parameter.schema, requiredComponents, openapi);
           }
         }
       }
@@ -55,28 +61,104 @@ function createTagModule(openapi, tag) {
   }
 
   // Filtrowanie komponentów
-  tagModule.components = filterComponents(
-    openapi.components,
-    requiredComponents
-  );
+  if (openapi.components) {
+    tagModule.components = filterComponents(
+      openapi.components,
+      requiredComponents
+    );
+  }
 
   return tagModule;
 }
 
-function getRefsFromSchema(schema) {
-  const refs = new Set();
+function getRefsFromSchema(schema, requiredComponents, openapi) {
+  if (!schema) return;
+
   if (schema.$ref) {
-    refs.add(schema.$ref.split('/').pop());
-  }
-  if (schema.items) {
-    getRefsFromSchema(schema.items).forEach(ref => refs.add(ref));
-  }
-  if (schema.properties) {
-    for (const propSchema of Object.values(schema.properties)) {
-      getRefsFromSchema(propSchema).forEach(ref => refs.add(ref));
+    const ref = schema.$ref.split('/').pop();
+    requiredComponents.add(ref);
+    if (schema.$ref.startsWith('#/components/schemas/')) {
+      const schemaName = schema.$ref.replace('#/components/schemas/', '');
+      if (openapi.components.schemas[schemaName]) {
+        getRefsFromSchema(
+          openapi.components.schemas[schemaName],
+          requiredComponents,
+          openapi
+        );
+      }
+    } else if (schema.$ref.startsWith('#/components/responses/')) {
+      const responseName = schema.$ref.replace('#/components/responses/', '');
+      if (openapi.components.responses[responseName]) {
+        getRefsFromResponse(
+          openapi.components.responses[responseName],
+          requiredComponents,
+          openapi
+        );
+      }
     }
   }
-  return refs;
+
+  if (schema.items) {
+    getRefsFromSchema(schema.items, requiredComponents, openapi);
+  }
+
+  if (schema.properties) {
+    for (const propSchema of Object.values(schema.properties)) {
+      getRefsFromSchema(propSchema, requiredComponents, openapi);
+    }
+  }
+
+  if (schema.anyOf) {
+    for (const itemSchema of schema.anyOf) {
+      getRefsFromSchema(itemSchema, requiredComponents, openapi);
+    }
+  }
+
+  if (schema.allOf) {
+    for (const itemSchema of schema.allOf) {
+      getRefsFromSchema(itemSchema, requiredComponents, openapi);
+    }
+  }
+
+  if (schema.oneOf) {
+    for (const itemSchema of schema.oneOf) {
+      getRefsFromSchema(itemSchema, requiredComponents, openapi);
+    }
+  }
+}
+
+function getRefsFromResponse(response, requiredComponents, openapi) {
+  if (!response) return;
+
+  if (response.content) {
+    for (const mediaType of Object.values(response.content)) {
+      getRefsFromSchema(mediaType.schema, requiredComponents, openapi);
+    }
+  }
+
+  if (response.$ref) {
+    const ref = response.$ref.split('/').pop();
+    requiredComponents.add(ref);
+    if (response.$ref.startsWith('#/components/schemas/')) {
+      const schemaName = response.$ref.replace('#/components/schemas/', '');
+      if (openapi.components.schemas[schemaName]) {
+        getRefsFromSchema(
+          openapi.components.schemas[schemaName],
+          requiredComponents,
+          openapi
+        );
+      }
+    } else if (response.$ref.startsWith('#/components/responses/')) {
+      const responseName = response.$ref.replace('#/components/responses/', '');
+      if (openapi.components.responses[responseName]) {
+        getRefsFromResponse(
+          openapi.components.responses[responseName],
+          requiredComponents,
+          openapi
+        );
+      }
+    }
+  }
 }
 
 function filterComponents(components, requiredComponents) {
@@ -90,7 +172,8 @@ function filterComponents(components, requiredComponents) {
 }
 
 async function main() {
-  const openapi = await readOpenAPISpec('orval/openapi.json');
+  const openapiPath = path.join(__dirname, 'openapi.json');
+  const openapi = await readOpenAPISpec(openapiPath);
 
   // Znalezienie wszystkich unikalnych tagów w API
   const tags = new Set();
@@ -118,10 +201,13 @@ async function main() {
   const selectedTag = answers.selectedTag;
 
   // Utworzenie folderu 'modules', jeśli nie istnieje
-  fs.ensureDirSync('orval/modules');
+  fs.ensureDirSync(path.join(__dirname, 'modules'));
 
   // Podział API na moduł według wybranego tagu i zapisanie do pliku JSON w folderze 'modules'
-  const moduleFilePath = `orval/modules/${selectedTag}.openapi.json`;
+  const moduleFilePath = path.join(
+    __dirname,
+    `modules/${selectedTag}.openapi.json`
+  );
   const tagModule = createTagModule(openapi, selectedTag);
   await fs.writeJson(moduleFilePath, tagModule, {
     spaces: 2,
@@ -142,17 +228,20 @@ export const config: Parameters<typeof defineConfig>[number] = {
       prettier: true,
     },
     input: {
-      target: './${moduleFilePath}',
+      target: 'orval/modules/${selectedTag}.openapi.json',
     },
   },
 };
   `;
 
-  const orvalConfigFilePath = `orval/modules/${selectedTag}.orval.config.ts`;
+  const orvalConfigFilePath = path.join(
+    __dirname,
+    `modules/${selectedTag}.orval.config.ts`
+  );
   await fs.writeFile(orvalConfigFilePath, orvalConfigContent.trim());
 
   console.log(
-    `Moduł '${selectedTag}' został wygenerowany i zapisany w folderze 'orval/modules'.`
+    `Moduł '${selectedTag}' został wygenerowany i zapisany w folderze 'modules'.`
   );
   console.log(
     `Plik konfiguracyjny Orval został utworzony jako '${orvalConfigFilePath}'.`
@@ -166,7 +255,8 @@ import { config } from './orval/modules/${selectedTag}.orval.config';
 
 export default defineConfig(config);
   `;
-  await fs.writeFile('../orval.config.ts', mainOrvalConfigContent.trim());
+  const mainOrvalConfigFilePath = path.join(__dirname, '../orval.config.ts');
+  await fs.writeFile(mainOrvalConfigFilePath, mainOrvalConfigContent.trim());
 
   console.log(
     `Plik konfiguracyjny '../orval.config.ts' został zaktualizowany.`
