@@ -238,11 +238,22 @@ export const config: Parameters<typeof defineConfig>[number] = {
     __dirname,
     `modules/${selectedTag}.orval.config.ts`
   );
-  await fs.writeFile(orvalConfigFilePath, orvalConfigContent.trim());
+
+  if (!fs.pathExistsSync(orvalConfigFilePath)) {
+    await fs.writeFile(orvalConfigFilePath, orvalConfigContent.trim());
+    console.log(
+      `Plik konfiguracyjny Orval został utworzony jako '${orvalConfigFilePath}'.`
+    );
+  } else {
+    console.log(
+      `Plik konfiguracyjny Orval już istnieje: '${orvalConfigFilePath}'.`
+    );
+  }
 
   console.log(
     `Moduł '${selectedTag}' został wygenerowany i zapisany w folderze 'modules'.`
   );
+
   console.log(
     `Plik konfiguracyjny Orval został utworzony jako '${orvalConfigFilePath}'.`
   );
@@ -255,6 +266,7 @@ import { config } from './orval/modules/${selectedTag}.orval.config';
 
 export default defineConfig(config);
   `;
+
   const mainOrvalConfigFilePath = path.join(__dirname, '../orval.config.ts');
   await fs.writeFile(mainOrvalConfigFilePath, mainOrvalConfigContent.trim());
 
