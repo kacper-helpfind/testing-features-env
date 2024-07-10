@@ -15,7 +15,7 @@
     "messages:extract": "lingui extract --clean",
     "prettier:write": "prettier . --write",
     "prettier:check": "prettier . --check",
-    "api:generate": "node ./orval/splitOpenAPI.js",
+    "api:generate": "node ./orval/splitOpenAPI.js && yarn orval --config ./orval.config.ts",
     "api:update": "curl -o ./orval/openapi.json https://petstore3.swagger.io/api/v3/openapi.json"
   },
   "dependencies": {

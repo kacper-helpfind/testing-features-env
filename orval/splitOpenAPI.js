@@ -17,6 +17,7 @@ function createTagModule(openapi, tag) {
       )
     )
   );
+
   tagModule.tags = openapi.tags.filter(t => t.name === tag);
 
   // Znalezienie wszystkich wymaganych komponentów (schemas, requestBodies, responses, parameters, securitySchemes)
@@ -130,8 +131,8 @@ async function main() {
   const orvalConfigContent = `
 import { defineConfig } from 'orval';
 
-export default defineConfig({
-  petstore: {
+export const config: Parameters<typeof defineConfig>[number] = {
+  ${selectedTag}: {
     output: {
       mode: 'tags-split',
       target: 'src/orval/api',
@@ -139,26 +140,36 @@ export default defineConfig({
       client: 'react-query',
       mock: true,
       prettier: true,
-      indexFiles: true,
     },
     input: {
       target: './${moduleFilePath}',
     },
   },
-});
+};
   `;
 
-  const orvalConfigFilePath = `${selectedTag}.orval.config.ts`;
-  await fs.writeFile(
-    `orval/modules/${orvalConfigFilePath}`,
-    orvalConfigContent.trim()
-  );
+  const orvalConfigFilePath = `orval/modules/${selectedTag}.orval.config.ts`;
+  await fs.writeFile(orvalConfigFilePath, orvalConfigContent.trim());
 
   console.log(
     `Moduł '${selectedTag}' został wygenerowany i zapisany w folderze 'orval/modules'.`
   );
   console.log(
-    `Plik konfiguracyjny Orval został utworzony jako 'orval/modules/${orvalConfigFilePath}'.`
+    `Plik konfiguracyjny Orval został utworzony jako '${orvalConfigFilePath}'.`
+  );
+
+  // Zmiana pliku ../orval.config.ts
+  const mainOrvalConfigContent = `
+import { defineConfig } from 'orval';
+
+import { config } from './orval/modules/${selectedTag}.orval.config';
+
+export default defineConfig(config);
+  `;
+  await fs.writeFile('../orval.config.ts', mainOrvalConfigContent.trim());
+
+  console.log(
+    `Plik konfiguracyjny '../orval.config.ts' został zaktualizowany.`
   );
 }
 
